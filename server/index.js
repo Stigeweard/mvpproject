@@ -7,6 +7,9 @@ var shared = ['mithril']
 app.get('/js/vendor-bundle.js', browserify(shared))
 app.get('/js/app-bundle.js', browserify('./client/app-bundle/index.js', { external: shared }))
 
+app.get('/', function(req, res){
+  res.send('**/client/public/index.html')
+})
 // Non-js static files
 app.use(express.static('client/public'))
 
