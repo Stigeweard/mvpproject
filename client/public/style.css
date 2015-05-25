@@ -1,0 +1,36 @@
+body {
+  background-color: lightgrey;
+  width: 75%;
+  margin: 0 auto;
+  font-family: sans-serif;
+}
+h3 {
+  margin: 25px;
+  font-style: italic;
+}
+label {
+  font-size: 14;
+}
+legend {
+  font-size: 20;
+}
+.taskField {
+  width: 400;
+}
+.complete {
+  border-color: darkgrey;
+  margin-left: 15px;
+}
+.incomplete {
+  border-color: orange;
+}
+button {
+  margin: 10px 10px 0px 0px;
+}
+.stats {
+  width: 20%;
+  margin: 0 100 auto;
+  border: groove;
+  padding: 5px;
+  text-align: center;
+}
