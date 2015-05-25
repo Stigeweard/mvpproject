@@ -18,7 +18,8 @@ App.controller = function () {}
 App.view = function (ctrl) {
   return [
     m('h1', 'TODOmithril'),
-    m.component(Todos, { title: 'Simple TODO list' })
+    // What does the title part do?
+    m.component(Todos)
   ]
 }
 

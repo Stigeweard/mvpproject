@@ -23,6 +23,13 @@ exports.controller = function () {
   ctrl.remove = function (idx) {
     ctrl.todos().splice(idx, 1)
   }
+  ctrl.deleteAllDone = function(){
+    for (var i=0; i < ctrl.todos().length; i++) {
+      if(ctrl.todos()[i].status() === 'complete') {
+        ctrl.remove(i)
+      }
+    }
+  }
   ctrl.strike = function (idx) {
     var current = ctrl.todos()[idx]
     current.status('complete')
@@ -54,16 +61,16 @@ exports.view = function (ctrl) {
         strikeOrDelete(ctrl, idx)
       ])
     }),
-    addTask(ctrl),
-    // deleteAllDone(ctrl)
+    addTaskButton(ctrl),
+    deleteAllDoneButton(ctrl)
   ])
 } 
 
-// function deleteAllDone(ctrl) {
-//   if (ctrl.)
-// }
+function deleteAllDoneButton(ctrl) {
+  return m('button', { onclick: ctrl.deleteAllDone, href:'#' }, 'Clear complete tasks')
+}
 
-function addTask (ctrl) {
+function addTaskButton (ctrl) {
   return m('button', { onclick: ctrl.add, href:'#' }, 'Add another task')
 }
 
