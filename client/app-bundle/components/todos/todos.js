@@ -27,14 +27,12 @@ exports.controller = function () {
     ctrl.todos().splice(idx, 1)
   }
   ctrl.deleteAllDone = function(){
-    // [t2,t3]
-    // i=1
-    // for (var i=0; i < ctrl.todos().length; i++) {
-    //   if(ctrl.todos()[i].status() === 'complete') {
-    //     ctrl.remove(i)
-    //   }
-    // }
-    var newTodos = ctrl.todos().filter()
+
+    var newTodos = ctrl.todos().filter(function(element){
+      if (element.status() === "incomplete") {
+        return true
+      } else {return false}
+    })
     ctrl.todos(newTodos)
   }
   ctrl.strike = function (idx) {
@@ -93,18 +91,18 @@ function fadesOut (selector, callback) {
 }
 
 function deleteAllDoneButton(ctrl) {
-  return m('button', { onclick: ctrl.deleteAllDone, href:'#' }, 'Clear complete tasks')
+  return m('button', { onclick: ctrl.deleteAllDone }, 'Clear complete tasks')
 }
 
 function addTaskButton (ctrl) {
-  return m('button', { onclick: ctrl.add, href:'#' }, 'Add another task')
+  return m('button', { onclick: ctrl.add }, 'Add another task')
 }
 
 function strikeOrDelete (ctrl, idx) {
   if (ctrl.todos()[idx].status() === 'complete') {
-    return m('button.remove', 'complete')
+    return m('button.remove', 'remove')
   } else {
-    return m('button', { onclick: ctrl.strike.papp(idx), href:'#' }, 'dun\'d')
+    return m('button', { onclick: ctrl.strike.papp(idx) }, 'complete')
   }
 }
 

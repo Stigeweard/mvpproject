@@ -1,7 +1,3 @@
-window.getProp = function (propName) {
-  return function (obj) { return obj[propName] }
-}
-
 var m = require('mithril')
 var Todos = require('./components/todos/todos.js')
 
