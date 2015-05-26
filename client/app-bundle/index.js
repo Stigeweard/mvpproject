@@ -18,7 +18,6 @@ App.controller = function () {}
 App.view = function (ctrl) {
   return [
     m('h1', 'TODOmithril'),
-    // What does the title part do?
     m.component(Todos)
   ]
 }
@@ -29,5 +28,5 @@ m.route.mode = 'hash';
 
 m.route(document.body, "/", {
     "/": App,
-    "/todos": Todos,
+    "/todos": Todos
 });
