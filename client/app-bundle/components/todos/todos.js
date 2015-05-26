@@ -1,6 +1,9 @@
 var m = require('mithril')
 
+var idCounter = 0
 exports.model = function () {
+  idCounter += 1
+  this.id = m.prop(idCounter)
   this.title  = m.prop('')
   this.task = m.prop('')
   this.status = m.prop('incomplete')
@@ -24,11 +27,15 @@ exports.controller = function () {
     ctrl.todos().splice(idx, 1)
   }
   ctrl.deleteAllDone = function(){
-    for (var i=0; i < ctrl.todos().length; i++) {
-      if(ctrl.todos()[i].status() === 'complete') {
-        ctrl.remove(i)
-      }
-    }
+    // [t2,t3]
+    // i=1
+    // for (var i=0; i < ctrl.todos().length; i++) {
+    //   if(ctrl.todos()[i].status() === 'complete') {
+    //     ctrl.remove(i)
+    //   }
+    // }
+    var newTodos = ctrl.todos().filter()
+    ctrl.todos(newTodos)
   }
   ctrl.strike = function (idx) {
     var current = ctrl.todos()[idx]
@@ -50,7 +57,7 @@ exports.view = function (ctrl) {
     ]),
 
     ctrl.todos().map(function (todo, idx) {
-      return m('fieldset', { class: todo.status() }, [
+      return m('fieldset', { class: todo.status(), key: todo.id(), onclick: fadesOut('button.remove', ctrl.remove.papp(idx)) }, [
         m('legend', "Task: "+ todo.title()),
         m('label', "Title: "),
         m('input[type=text]', { value: todo.title(), onchange: m.withAttr('value', todo.title) }),
@@ -64,7 +71,26 @@ exports.view = function (ctrl) {
     addTaskButton(ctrl),
     deleteAllDoneButton(ctrl)
   ])
-} 
+}
+
+function fadesOut (selector, callback) {
+  return function(e) {
+    // console.log("Clicked", e.currentTarget, e.target)
+    
+    if (! matches(e.target, selector) ) return;
+    //don't redraw yet
+    m.redraw.strategy("none")
+
+    Velocity(e.currentTarget, {opacity: 0}, {
+      complete: function() {
+        //now that the animation finished, redraw
+        m.startComputation()
+        callback()
+        m.endComputation()
+      }
+    })
+  }
+}
 
 function deleteAllDoneButton(ctrl) {
   return m('button', { onclick: ctrl.deleteAllDone, href:'#' }, 'Clear complete tasks')
@@ -76,8 +102,12 @@ function addTaskButton (ctrl) {
 
 function strikeOrDelete (ctrl, idx) {
   if (ctrl.todos()[idx].status() === 'complete') {
-    return m('button', { onclick: ctrl.remove.papp(idx), href:'#' }, 'complete')
+    return m('button.remove', 'complete')
   } else {
     return m('button', { onclick: ctrl.strike.papp(idx), href:'#' }, 'dun\'d')
   }
+}
+
+function matches (el, selector) {
+  return (el.matches || el.matchesSelector).call(el, selector)
 }
