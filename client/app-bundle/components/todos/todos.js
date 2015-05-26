@@ -45,7 +45,7 @@ exports.controller = function () {
 
 exports.view = function (ctrl) {
   return m('.todos', [
-    m('h3', 'wow. very productive. much impress'),
+    m('h3', 'such productivity'),
     m('div', {class: 'stats'}, [
       m('a', 'Cumulative: ' + ctrl.tasksAdded),
       m('br'),
